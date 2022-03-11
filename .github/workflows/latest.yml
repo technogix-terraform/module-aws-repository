@@ -67,7 +67,7 @@ jobs:
                 token: ${{ secrets.GH_ACCESS_TOKEN }}
 
             - name: Retrieving vault key
-              run: echo ${{ secrets.VAULT_KEY }} >> vault/database.key
+              run: echo ${{ secrets.VAULT_KEY }} > vault/database.key
 
             - name: Lauching tests
               continue-on-error: true
