@@ -73,10 +73,11 @@ jobs:
               continue-on-error: true
               uses: docker://technogix/terraform-python-awscli:v2.0.0
               with:
-                args: ./module/scripts/test.sh
+                args: ./module/scripts/robot.sh
 
             - name: Push API documentation to Github Pages
               uses: peaceiris/actions-gh-pages@v3
               with:
                 publish_dir: ./tests
+                github_token: ${{ secrets.GH_ACCESS_TOKEN }}
                 commit_message: "Generate Test report"

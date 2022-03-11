@@ -24,10 +24,9 @@ for level in "$@"; do
 done
 
 # Install required python packages
-pip install --quiet --no-warn-script-location -r $scriptpath/../requirements-test.txt --target /tmp/site-packages
+pip install --quiet --no-warn-script-location -r $scriptpath/../requirements-test.txt
 
 # Launch python scripts to setup terraform environment
-export PYTHONPATH=/tmp/site-packages
 python3 -m robot --variable vaultdatabase:$scriptpath/../../vault/database.kdbx   \
                  --variable vaultkey:$scriptpath/../../vault/database.key         \
                  $args                                                            \
