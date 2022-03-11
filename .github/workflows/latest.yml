@@ -63,11 +63,11 @@ jobs:
               with:
                 repository: technogix/vault
                 path: vault
-                ref: main
+                ref: v1.0.0
                 token: ${{ secrets.GH_ACCESS_TOKEN }}
 
             - name: Retrieving vault key
-              run: echo ${{ secrets.VAULT_KEY }} >> vault/database.key && ls -l vault
+              run: echo ${{ secrets.VAULT_KEY }} >> vault/database.key
 
             - name: Lauching tests
               continue-on-error: true
