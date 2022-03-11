@@ -4,18 +4,17 @@
 # Copyright (c) [2022] Technogix SARL
 # All rights reserved
 # -------------------------------------------------------
-# Test pipeline for module
+# Pull request pipeline for module
 # -------------------------------------------------------
 # Nadège LEMPERIERE, @01 march 2022
 # Latest revision: 01 march 2022
 # -------------------------------------------------------
 
-name: Module Build Pipeline
+name: Module Pull Request Pipeline
 
 on:
-    push:
-        branches:
-            - '**'
+    pull_request:
+        types: [ assigned, opened, synchronize, reopened ]
 
 jobs:
 
@@ -28,19 +27,16 @@ jobs:
               uses: actions/checkout@master
 
             - name: Linting code
-              continue-on-error: true
               uses: docker://technogix/terraform-python-awscli:v2.0.0
               with:
                 args: tflint --init && tflint --format sarif
 
             - name: Run Snyk to check for vulnerabilities
-              continue-on-error: true
               uses: snyk/actions/iac@master
               env:
                 SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
             - name: Upload result to GitHub Code Scanning
-              continue-on-error: true
               uses: github/codeql-action/upload-sarif@v1
               if: always()
               with:
@@ -68,7 +64,6 @@ jobs:
               run: printf '%s\n' '${{ secrets.VAULT_KEY }}' > vault/database.key
 
             - name: Lauching tests
-              continue-on-error: true
               uses: docker://technogix/terraform-python-awscli:v2.0.0
               with:
                 args: ./module/scripts/robot.sh -l DEBUG -d tests
