@@ -1,0 +1,86 @@
+# -------------------------------------------------------
+# TECHNOGIX
+# -------------------------------------------------------
+# Copyright (c) [2022] Technogix SARL
+# All rights reserved
+# -------------------------------------------------------
+# Analysis pipeline for website
+# -------------------------------------------------------
+# Nadège LEMPERIERE, @01 march 2022
+# Latest revision: 01 march 2022
+# -------------------------------------------------------
+
+name: Module Build Pipeline
+
+on:
+    push:
+        branches:
+            - '**'
+
+jobs:
+
+    build:
+        name: Build Module
+        runs-on: ubuntu-latest
+        container: node:alpine
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@master
+
+            - name: Linting code
+              continue-on-error: true
+              uses: docker://technogix/terraform-python-awscli:v2.0.0
+              with:
+                args: tflint --init && tflint --format tflint.sarif
+
+            - name: Run Snyk to check for vulnerabilities
+              continue-on-error: true
+              uses: snyk/actions/iac@master
+              env:
+                SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+              with:
+                args: --sarif-file-output=snyk.sarif
+
+            - name: Upload result to GitHub Code Scanning
+              uses: github/codeql-action/upload-sarif@v1
+              if: always()
+              with:
+                sarif_file: snyk.sarif
+
+    test:
+        name: Testing Module
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@master
+              with:
+                path: module
+
+            - name: Retrieving vault
+              uses: actions/checkout@master
+              with:
+                repository: technogix/vault
+                path: vault
+                ref: v1.0.0
+
+            - name: Retrieving vault key
+              run: echo ${{ secrets.VAULT_KEY }} >> vault/database.key && ls -l vault
+
+            - name: Launching test
+              continue-on-error: true
+              uses: docker://technogix/terraform-python-awscli:v2.0.0
+              with:
+                args: ./scripts/
+
+            - name: Lauching tests
+              continue-on-error: true
+              continue-on-error: true
+              uses: docker://technogix/terraform-python-awscli:v2.0.0
+              with:
+                args: ./module/scripts/test.sh
+
+            - name: Push API documentation to Github Pages
+              uses: peaceiris/actions-gh-pages@v3
+              with:
+                publish_dir: ./tests
+                commit_message: "Generate Test report"
