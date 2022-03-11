@@ -10,11 +10,29 @@ About The Project
 
 This project contains all the infrastructure as code (IaC) to deploy a secured docker repository in AWS
 
+
+.. image:: https://badgen.net/github/checks/technogix-terraform/module-aws-repository
+   :target: https://github.com/technogix-terraform/module-aws-repository/actions/workflows/release.yml
+   :alt: Status
+.. image:: https://img.shields.io/static/v1?label=license&message=MIT&color=informational
+   :target: ./LICENSE
+   :alt: License
+.. image:: https://badgen.net/github/commits/technogix-terraform/module-aws-repository/main
+   :target: https://github.com/technogix-terraform/robotframework
+   :alt: Commits
+.. image:: https://badgen.net/github/last-commit/technogix-terraform/module-aws-repository/main
+   :target: https://github.com/technogix-terraform/robotframework
+   :alt: Last commit
+
 Built With
 ----------
 
-[![Terraform](https://img.shields.io/static/v1?label=terraform&message=1.1.7&color=informational)](https://www.terraform.io/docs/index.html)
-[![Terraform AWS provider](https://img.shields.io/static/v1?label=terraform%20AWS%20provider&message=4.4.0&color=informational)](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
+.. image:: https://img.shields.io/static/v1?label=terraform&message=1.1.7&color=informational
+   :target: https://www.terraform.io/docs/index.html
+   :alt: Terraform
+.. image:: https://img.shields.io/static/v1?label=terraform%20AWS%20provider&message=4.4.0&color=informational
+   :target: https://registry.terraform.io/providers/hashicorp/aws/latest/docs
+   :alt: Terraform AWS provider
 
 Getting Started
 ===============
@@ -33,7 +51,7 @@ To use this module in a wider terraform deployment, add the module to a terrafor
 
     module "repository" {
 
-        source                  = "git::git@github.com/technogix-terraform/module-aws-repository?ref=<this module version>
+        source                  = "git::git@github.com/technogix-terraform/module-aws-repository?ref=<this module version>"
         project                 = the project to which the repository belongs to be used in naming and tags
         module                  = the project module to which the repository belongs to be used in naming and tags
         email                   = the email of the person responsible for the repository maintainance
@@ -79,9 +97,14 @@ Repository policy enables by default :
 
 * The IAM user used to perform infrastructure deployment
 
-to get full access to the repository, so that it can be fully managed by terraform.
+to get full access to the repository, so that it can be fully managed by terraform. Additional rights are provided through module configuration
 
-Additional rights are provided through module configuration
+Lifecycle is set to :
+
+* Remove untagged images after a given number of days (7 by default)
+
+* Remove tagged images when there is more than a given number of them in the repository (30 by default)
+
 
 Testing
 =======
@@ -89,10 +112,19 @@ Testing
 Tested With
 -----------
 
-[![Technogix iac keywords](https://img.shields.io/static/v1?label=technogix_iac_keywords&message=v1.0.0&color=informational)](https://github.com/technogix-terraform/robotframework)
-[![Python](https://img.shields.io/static/v1?label=python&message=3.10.2&color=informational)](https://www.python.org)
-[![Robotframework](https://img.shields.io/static/v1?label=robotframework&message=4.1.3&color=informational)](http://robotframework.org/)
-[![Boto3](https://img.shields.io/static/v1?label=boto3&message=1.21.7&color=informational)](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html)
+
+.. image:: https://img.shields.io/static/v1?label=technogix_iac_keywords&message=v1.0.0&color=informational
+   :target: https://github.com/technogix-terraform/robotframework
+   :alt: Technogix iac keywords
+.. image:: https://img.shields.io/static/v1?label=python&message=3.10.2&color=informational
+   :target: https://www.python.org
+   :alt: Python
+.. image:: https://img.shields.io/static/v1?label=robotframework&message=4.1.3&color=informational
+   :target: http://robotframework.org/
+   :alt: Robotframework
+.. image:: https://img.shields.io/static/v1?label=boto3&message=1.21.7&color=informational
+   :target: https://boto3.amazonaws.com/v1/documentation/api/latest/index.html
+   :alt: Boto3
 
 Environment
 -----------
@@ -121,6 +153,16 @@ The tests cases :
 
 NB : It is not possible to completely specify the expected infrastructure, since some of the value returned by boto are not known before apply. The comparaison functions checks that all the specified data keys are present in the output, leaving alone the other unrequired keys.
 
+Issues
+======
+
+.. image:: https://img.shields.io/github/issues/technogix-terraform/module-aws-repository.svg
+   :target: https://github.com/technogix-terraform/module-aws-repository/issues
+   :alt: Open issues
+.. image:: https://img.shields.io/github/issues-closed/technogix-terraform/module-aws-repository.svg
+   :target: https://github.com/technogix-terraform/module-aws-repository/issues
+   :alt: Closed issues
+
 Roadmap
 =======
 
@@ -129,7 +171,8 @@ N.A.
 Contributing
 ============
 
-![GitHub Contributors Image](https://contrib.rocks/image?repo=technogix-terraform/module-aws-repository)
+.. image:: https://contrib.rocks/image?repo=technogix-terraform/module-aws-repository
+   :alt: GitHub Contributors Image
 
 We welcome contributions, do not hesitate to contact us if you want to contribute.
 
