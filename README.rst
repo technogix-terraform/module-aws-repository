@@ -186,7 +186,9 @@ Contact
 
 Nadege LEMPERIERE - nadege.lemperiere@technogix.io
 
-Project Link: [https://github.com/technogix-terraform/module-aws-repository](https://github.com/technogix-terraform/module-aws-repository)
+Project Link: `https://github.com/technogix-terraform/module-aws-repository`_
+
+.. _`https://github.com/technogix-terraform/module-aws-repository`: https://github.com/technogix-terraform/module-aws-repository
 
 Acknowledgments
 ===============

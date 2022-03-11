@@ -1,0 +1,4 @@
+ignore:
+    SNYK-CC-TF-74:
+        - test > data > main.tf :
+          reason: 'Credentials are provided in a .tfvars file that is built during the test by robotframework from the vault secrets and removed right after testing. Secrets values only appears in CI/CD pipeline, thus limiting the vulnerability'

@@ -31,7 +31,7 @@ jobs:
               continue-on-error: true
               uses: docker://technogix/terraform-python-awscli:v2.0.0
               with:
-                args: tflint --init && tflint --format tflint.sarif
+                args: tflint --init && tflint --format sarif
 
             - name: Run Snyk to check for vulnerabilities
               continue-on-error: true
@@ -62,7 +62,7 @@ jobs:
               with:
                 repository: technogix/vault
                 path: vault
-                ref: v1.0.0
+                ref: main
                 token: ${{ secrets.GH_ACCESS_TOKEN }}
 
             - name: Retrieving vault key
