@@ -12,3 +12,4 @@ states
 **/*.html
 **/*.xml
 **/__pycache__/**
+!.tflint.hcl
