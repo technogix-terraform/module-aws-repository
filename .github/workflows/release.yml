@@ -30,12 +30,14 @@ jobs:
             - name: Linting code
               uses: docker://technogix/terraform-python-awscli:v2.0.0
               with:
-                args: tflint --init && tflint --format sarif
+                args: ./scripts/lint.sh
 
             - name: Run Snyk to check for vulnerabilities
               uses: snyk/actions/iac@master
               env:
                 SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+              with:
+                args: --sarif-file-output=snyk.sarif
 
             - name: Upload result to GitHub Code Scanning
               uses: github/codeql-action/upload-sarif@v1
