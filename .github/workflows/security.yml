@@ -10,7 +10,7 @@
 # Latest revision: 01 march 2022
 # -------------------------------------------------------
 
-name: Module Build Pipeline
+name: Module Security Scan Pipeline
 
 on:
   schedule:

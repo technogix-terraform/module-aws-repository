@@ -56,7 +56,7 @@ To use this module in a wider terraform deployment, add the module to a terrafor
         module                  = the project module to which the repository belongs to be used in naming and tags
         email                   = the email of the person responsible for the repository maintainance
         environment             = the type of environment to which the repository contributes (prod, preprod, staging, sandbox, ...) to be used in naming and tags
-        git_version             = the version of the deployment that uses the module
+        git_version             = the version of the deployment that uses the module to be used as tag
         account                 = AWS account to allow access to root by default
         service_principal       = Technical IAM account used for automation that shall be able to access the repository
         rights                  = [ Repository access rights to add to repositories and key policies
@@ -79,6 +79,7 @@ Usage
 The module is deployed alongside the module other terraform components, using the classic command lines :
 
 .. code:: bash
+
     terraform init ...
     terraform plan ...
     terraform apply ...
@@ -131,9 +132,13 @@ Environment
 
 Tests can be executed in an environment :
 
-* in which python and terraform has been installed, by executing the script [scripts/robot.sh](scripts/robot.sh), or
+* in which python and terraform has been installed, by executing the script `scripts/robot.sh`_, or
 
-* in which docker is available, by using the [technogix infrastructure image](https://github.com/technogix-images/terraform-python-awscli) in its latest version, which already contains python and terraform, by executing the script [scripts/test.sh](scripts/test.sh)
+* in which docker is available, by using the `technogix infrastructure image`_ in its latest version, which already contains python and terraform, by executing the script `scripts/test.sh`_
+
+.. _`technogix infrastructure image`: https://github.com/technogix-images/terraform-python-awscli
+.. _`scripts/robot.sh`: scripts/robot.sh
+.. _`scripts/test.sh`: scripts/test.sh
 
 Strategy
 --------

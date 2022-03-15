@@ -18,26 +18,28 @@ Library         technogix_iac_keywords.keepass
 Library         technogix_iac_keywords.ecr
 Library         technogix_iac_keywords.kms
 Library         ../keywords/data.py
+Library         OperatingSystem
 
 *** Variables ***
 ${KEEPASS_DATABASE}                 ${vaultdatabase}
-${KEEPASS_KEY}                      ${vaultkey}
-${KEEPASS_GOD_KEY_ENTRY}            /engineering-environment/aws/aws-god-access-key
-${KEEPASS_GOD_USERNAME}             /engineering-environment/aws/aws-god-credentials
+${KEEPASS_KEY_ENV}                  ${vault_key_env}
+${KEEPASS_PRINCIPAL_KEY_ENTRY}      /engineering-environment/aws/aws-principal-access-key
+${KEEPASS_PRINCIPAL_USERNAME}       /engineering-environment/aws/aws-principal-credentials
 ${KEEPASS_ACCOUNT}                  /engineering-environment/aws/aws-account
 ${REGION}                           eu-west-1
 
 *** Test Cases ***
 Prepare Environment
-    [Documentation]         Retrieve god credential from database and initialize python tests keywords
-    ${god_access}           Load Keepass Database Secret            ${KEEPASS_DATABASE}     ${KEEPASS_KEY}  ${KEEPASS_GOD_KEY_ENTRY}    username
-    ${god_secret}           Load Keepass Database Secret            ${KEEPASS_DATABASE}     ${KEEPASS_KEY}  ${KEEPASS_GOD_KEY_ENTRY}    password
-    ${god_name}             Load Keepass Database Secret            ${KEEPASS_DATABASE}     ${KEEPASS_KEY}  ${KEEPASS_GOD_USERNAME}     username
-    ${account}              Load Keepass Database Secret            ${KEEPASS_DATABASE}     ${KEEPASS_KEY}  ${KEEPASS_ACCOUNT}          password
-    Initialize Terraform    ${REGION}   ${god_access}   ${god_secret}
-    Initialize ECR          None        ${god_access}   ${god_secret}    ${REGION}
-    Initialize KMS          None        ${god_access}   ${god_secret}    ${REGION}
-    ${TF_PARAMETERS}=       Create Dictionary   account=${account}    service_principal=${god_name}
+    [Documentation]         Retrieve principal credential from database and initialize python tests keywords
+    ${keepass_key}          Get Environment Variable          ${KEEPASS_KEY_ENV}
+    ${principal_access}     Load Keepass Database Secret      ${KEEPASS_DATABASE}     ${keepass_key}  ${KEEPASS_PRINCIPAL_KEY_ENTRY}    username
+    ${principal_secret}     Load Keepass Database Secret      ${KEEPASS_DATABASE}     ${keepass_key}  ${KEEPASS_PRINCIPAL_KEY_ENTRY}    password
+    ${principal_name}       Load Keepass Database Secret      ${KEEPASS_DATABASE}     ${keepass_key}  ${KEEPASS_PRINCIPAL_USERNAME}     username
+    ${account}              Load Keepass Database Secret      ${KEEPASS_DATABASE}     ${keepass_key}  ${KEEPASS_ACCOUNT}          password
+    Initialize Terraform    ${REGION}   ${principal_access}   ${principal_secret}
+    Initialize ECR          None        ${principal_access}   ${principal_secret}    ${REGION}
+    Initialize KMS          None        ${principal_access}   ${principal_secret}    ${REGION}
+    ${TF_PARAMETERS}=       Create Dictionary   account=${account}    service_principal=${principal_name}
     Set Global Variable     ${TF_PARAMETERS}
 
 Create Multiple Repositories
